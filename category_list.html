@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <select id="things" onChange="createSheet([this.options[this.selectedIndex].value, this.options[this.selectedIndex].text])">
+    <option>Loading...</option>
+   </select>
+
+  <script
+  src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+  </script>
+  <script>
+  // The code in this function runs when the page is loaded.
+  $(function() {
+    google.script.run.withSuccessHandler(showCategory)
+      .getCategoryNames();
+  });
+
+  function showCategory(things) {
+    var list = $('#things');
+    list.empty();
+    for (var i = 0; i < things.length; i++) {
+      list.append("<option value='"+ things[i].id + "'>" + things[i].name + '</option>');
+    }
+  }
+
+  function createSheet(e){
+    var value = {sub_sub_category_id:e[0], sub_sub_category_name:e[1]}
+    google.script.run.withSuccessHandler(() => google.script.host.close()).createSheet(value);
+  }
+  </script>
+ </body>
+</html>
+
+
+
+
